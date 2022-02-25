@@ -1,0 +1,45 @@
+1) Setup additional swap space in the system to solve low memory issue.  The swap which you added should be available post reboot.
+
+root@kamal-VirtualBox:/# mkdir dir
+root@kamal-VirtualBox:/dir# touch myswapfile 
+
+root@kamal-VirtualBox:/# dd if=/dev/zero of=/dir/myswapfile bs=1024 count=1024
+1024+0 records in
+1024+0 records out
+1048576 bytes (1.0 MB, 1.0 MiB) copied, 0.00550766 s, 190 MB/s
+
+root@kamal-VirtualBox:/# ls -l /dir/myswapfile
+-rw-r--r-- 1 root root 1048576 Feb 25 17:56 /dir/myswapfile
+root@kamal-VirtualBox:/# mkswap /dir/myswapfile
+mkswap: /dir/myswapfile: insecure permissions 0644, 0600 suggested.
+Setting up swapspace version 1, size = 1020 KiB (1044480 bytes)
+no label, UUID=0ddb6e4f-23b2-404b-937d-4ab5f972dcda
+
+root@kamal-VirtualBox:/# swapon -a /dir/myswapfile
+swapon: /dir/myswapfile: insecure permissions 0644, 0600 suggested.
+root@kamal-VirtualBox:/# swapon -s
+Filename				Type		Size	Used	Priority
+/swapfile                              	file    	776376	0	-2
+/dir/myswapfile                        	file    	1020	0	-3
+
+********************************************************************************************************************************************
+
+2) Find out the number of process is in run queue and blocking queue.
+oot@kamal-VirtualBox:/# vmstat 1
+procs -----------memory---------- ---swap-- -----io---- -system-- ------cpu-----
+ r  b   swpd   free   buff  cache   si   so    bi    bo   in   cs us sy id wa st
+ 0  0      0 305920  46644 955384    0    0   175    10  109  331  2  1 97  0  0
+ 0  0      0 305920  46644 955384    0    0     0     0  124  394  5  0 95  0  0
+ 0  0      0 305912  46644 955424    0    0     0     0  247 1046 10  2 88  0  0
+ 1  0      0 305912  46644 955424    0    0     0     0  285 1402  9  3 87  0  0
+ 0  0      0 305912  46644 955424    0    0     0     0  262 1297 10  2 87  0  0
+ 0  0      0 305912  46644 955424    0    0     0     0  110  248  7  1 92  0  0
+ 0  0      0 305912  46644 955424    0    0     0     0  111  226  6  0 94  0  0
+ 0  0      0 305912  46644 955424    0    0     0     0  194  726  9  1 90  0  0
+ 0  0      0 305912  46644 955424    0    0     0     0  120  304  7  1 92  0  0
+ 0  0      0 305912  46644 955424    0    0     0     0  113  247  6  0 94  0  0
+ 0  0      0 305912  46644 955424    0    0     0     0  128  297  7  0 93  0  0
+
+
+
+
