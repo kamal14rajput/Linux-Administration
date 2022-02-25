@@ -1,0 +1,39 @@
+1)  Create user "nikhil" with home directory set as "/home/nikhil".
+ a) nikhil user should have "/bin/sh" shell for his environment.
+
+kamal@kamal-VirtualBox:/$ sudo useradd nikhil
+kamal@kamal-VirtualBox:/$ sudo usermod -d /home/nikhil nikhil
+kamal@kamal-VirtualBox:/$ cat etc/passwd
+nikhil:x:1003:1003::/home/nikhil:/bin/sh
+
+
+**** b) His password should expire in 9 days and 2 days before password expiry, he should get warning.
+User account must expire in 1 month from creation date. ****
+
+kamal@kamal-VirtualBox:/$ sudo passwd nikhil 
+New password: 
+Retype new password: 
+passwd: password updated successfully
+
+kamal@kamal-VirtualBox:/$ sudo chage -l nikhil
+kamal@kamal-VirtualBox:/$ sudo chage -M 9 nikhil
+kamal@kamal-VirtualBox:/$ sudo chage -E 2022-03-25 nikhil
+kamal@kamal-VirtualBox:/$ sudo chage -W 2 nikhil
+kamal@kamal-VirtualBox:/$ sudo chage -l nikhil
+Last password change					: Feb 25, 2022
+Password expires					: Mar 06, 2022
+Password inactive					: never
+Account expires						: Mar 25, 2022
+Minimum number of days between password change		: 0
+Maximum number of days between password change		: 9
+Number of days of warning before password expires	: 2
+
+
+**************************************************************************************************************************************
+
+2) Inside folder "/" , create new home directory as "nikhil" (/nikhil) and setup this folder as a home directory for user "nikhil".
+kamal@kamal-VirtualBox:/$ sudo mkdir nikhil
+
+kamal@kamal-VirtualBox:/$ sudo usermod -d /nikhil/nikhil nikhil
+kamal@kamal-VirtualBox:/$ cat etc/passwd
+nikhil:x:1003:1003::/nikhil/nikhil:/bin/sh
